@@ -16,17 +16,22 @@ class MainActivity : AppCompatActivity() {
 
         bottomBar.setOnItemSelectedListener {
 
-            if (it.itemId == R.id.nav_guard) {
-                inflateFragment(GuardFragment.newInstance())
-            } else if (it.itemId == R.id.nav_home) {
-                inflateHomeFragment(HomeFragment.newInstance())
-            } else if (it.itemId == R.id.nav_dashboard) {
-                inflateDashboardFragment(DashboardFragment.newInstance())
-            } else {
-                inflateProfileFragment(ProfileFragment.newInstance())
+            when (it.itemId) {
+                R.id.nav_guard -> {
+                    inflateFragment(GuardFragment.newInstance())
+                }
+                R.id.nav_home -> {
+                    inflateHomeFragment(HomeFragment.newInstance())
+                }
+                R.id.nav_dashboard -> {
+                    inflateDashboardFragment(DashboardFragment.newInstance())
+                }
+                R.id.nav_profile -> {
+                    inflateProfileFragment(ProfileFragment.newInstance())
+                }
             }
 
-
+            bottomBar.selectedItemId = R.id.nav_home
 
             true
         }

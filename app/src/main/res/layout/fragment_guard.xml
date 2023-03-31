@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg">
@@ -22,13 +21,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
-        app:cardElevation="@dimen/dimen_16"
         android:id="@+id/pink_card"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_height_180"
         android:layout_margin="@dimen/dimen_16"
         app:cardBackgroundColor="@color/pink_bg"
         app:cardCornerRadius="@dimen/dimen_16"
+        app:cardElevation="@dimen/dimen_16"
         app:layout_constraintTop_toBottomOf="@id/text_security" />
 
 
@@ -69,13 +68,13 @@
         app:layout_constraintTop_toTopOf="@id/pink_card" />
 
     <com.google.android.material.card.MaterialCardView
-        app:cardElevation="@dimen/dimen_16"
         android:id="@+id/blue_card"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_180"
         android:layout_margin="@dimen/dimen_16"
         app:cardBackgroundColor="@color/blue_bg"
         app:cardCornerRadius="16dp"
+        app:cardElevation="@dimen/dimen_16"
         app:layout_constraintTop_toBottomOf="@id/pink_card" />
 
     <TextView
@@ -113,7 +112,6 @@
         app:layout_constraintBottom_toBottomOf="@id/blue_card"
         app:layout_constraintEnd_toEndOf="@id/blue_card"
         app:layout_constraintTop_toTopOf="@id/blue_card" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
