@@ -31,10 +31,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            bottomBar.selectedItemId = R.id.nav_home
+
 
             true
         }
+
+        bottomBar.selectedItemId = R.id.nav_home
     }
 
     private fun inflateProfileFragment(newInstance: ProfileFragment) {
@@ -57,8 +59,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun inflateFragment(newInstance: GuardFragment) {
 
-        val trancsaction = supportFragmentManager.beginTransaction()
-        trancsaction.replace(R.id.container, newInstance)
-        trancsaction.commit()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, newInstance)
+        transaction.commit()
     }
 }

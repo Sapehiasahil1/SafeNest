@@ -7,4 +7,6 @@
     <dimen name="dimen_height_180">180dp</dimen>
     <dimen name="dimen_width_96">96dp</dimen>
     <dimen name="dimen_180">180dp</dimen>
+    <dimen name="dimen_8">8dp</dimen>
+    <dimen name="dimen_16_sp">16sp</dimen>
 </resources>
