@@ -9,11 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class HomeFragment : Fragment() {
 
-
+    private  val listContacts : ArrayList<ContactModel> =ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,9 +67,24 @@ class HomeFragment : Fragment() {
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = adapter
 
-        fetchContacts()
+        val inviteAdapter = InviteAdapter(listContacts)
+        CoroutineScope(Dispatchers.IO).launch {
+            listContacts.addAll(fetchContacts())
 
-        val inviteAdapter = InviteAdapter(fetchContacts())
+            withContext(Dispatchers.Main){
+                // if we do not do this then app will crash because when we will not apply withContext
+                // which is used for Context switching then the main thread will be working in the io thread which
+                // makes the app to crash
+
+                inviteAdapter.notifyDataSetChanged()
+            }
+
+
+        }
+
+
+
+
         val inviteRecycler = requireView().findViewById<RecyclerView>(R.id.recycler_invite)
         inviteRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         inviteRecycler.adapter = inviteAdapter
