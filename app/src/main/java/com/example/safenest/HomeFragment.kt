@@ -17,7 +17,8 @@ import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
-    private  val listContacts : ArrayList<ContactModel> =ArrayList()
+    private lateinit var inviteAdapter: InviteAdapter
+    private val listContacts: ArrayList<ContactModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,51 +64,70 @@ class HomeFragment : Fragment() {
 
         val adapter = MemberAdapter(listMembers)
 
-       val recycler = requireView().findViewById<RecyclerView>(R.id.recycler_member)
+        val recycler = requireView().findViewById<RecyclerView>(R.id.recycler_member)
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = adapter
 
-        val inviteAdapter = InviteAdapter(listContacts)
-        CoroutineScope(Dispatchers.IO).launch {
-            listContacts.addAll(fetchContacts())
 
-            withContext(Dispatchers.Main){
+        inviteAdapter = InviteAdapter(listContacts)
+        fetchDatabaseContacts()
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            withContext(Dispatchers.Main) {
                 // if we do not do this then app will crash because when we will not apply withContext
                 // which is used for Context switching then the main thread will be working in the io thread which
                 // makes the app to crash
-
                 inviteAdapter.notifyDataSetChanged()
             }
 
-
+            insertDatabaseContacts(fetchContacts())
         }
 
-
-
-
         val inviteRecycler = requireView().findViewById<RecyclerView>(R.id.recycler_invite)
-        inviteRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        inviteRecycler.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         inviteRecycler.adapter = inviteAdapter
 
+    }
+
+    private fun fetchDatabaseContacts() {
+
+        val database = SafeNestDatabase.getDatabase(requireContext())
+        database.contactDao().getAllContacts().observe(viewLifecycleOwner) {
+
+            listContacts.clear()
+            listContacts.addAll(it)
+
+            inviteAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private suspend fun insertDatabaseContacts(listContacts: ArrayList<ContactModel>) {
+
+        val database = SafeNestDatabase.getDatabase(requireContext())
+        database.contactDao().insertAll(listContacts)
     }
 
     @SuppressLint("Range")
     private fun fetchContacts(): ArrayList<ContactModel> {
 
         val cr = requireActivity().contentResolver
-        val cursor = cr.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null)
+        val cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
 
         val listContacts: ArrayList<ContactModel> = ArrayList()
 
-        if(cursor != null && cursor.count >0){
+        if (cursor != null && cursor.count > 0) {
 
-            while(cursor !=null && cursor.moveToNext()){
+            while (cursor != null && cursor.moveToNext()) {
 
-                val id  = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))
-                val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                val hasPhoneNumber = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
+                val id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))
+                val name =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                val hasPhoneNumber =
+                    cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
 
-                if(hasPhoneNumber > 0){
+                if (hasPhoneNumber > 0) {
                     val pCur = cr.query(
                         ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                         null,
