@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "787937407607",
+    "project_id": "safenest-17806",
+    "storage_bucket": "safenest-17806.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787937407607:android:487cbb8d060784ed03cc72",
+        "android_client_info": {
+          "package_name": "com.example.safenest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787937407607-3rnfai6qp6vcfeon2ug0uj0a77j5r17j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.safenest",
+            "certificate_hash": "9eabd642e93b14810440bb8d5912461ca4835a3f"
+          }
+        },
+        {
+          "client_id": "787937407607-hkc43jvrfk7r7eh23qsq739l6r1o6t9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLj9_wJEjsApGgrQKZM-XA-wElkWwID8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787937407607-hkc43jvrfk7r7eh23qsq739l6r1o6t9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
