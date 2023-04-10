@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.safenest.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -20,17 +21,19 @@ class MainActivity : AppCompatActivity() {
     )
 
     val permissionCode = 78
+    private lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+//        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
 
 
         askForPermission()
-        val bottomBar = findViewById<BottomNavigationView>(R.id.bottom_bar)
 
-        bottomBar.setOnItemSelectedListener {
+        binding.bottomBar.setOnItemSelectedListener {
 
             when (it.itemId) {
                 R.id.nav_guard -> {
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        bottomBar.selectedItemId = R.id.nav_home
+        binding.bottomBar.selectedItemId = R.id.nav_home
     }
 
     private fun askForPermission() {

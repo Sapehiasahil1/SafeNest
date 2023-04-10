@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.safenest.databinding.FragmentHomeBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
+    private lateinit var binding : FragmentHomeBinding
     private lateinit var inviteAdapter: InviteAdapter
     private val listContacts: ArrayList<ContactModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +31,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+//        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,9 +68,9 @@ class HomeFragment : Fragment() {
 
         val adapter = MemberAdapter(listMembers)
 
-        val recycler = requireView().findViewById<RecyclerView>(R.id.recycler_member)
-        recycler.layoutManager = LinearLayoutManager(requireContext())
-        recycler.adapter = adapter
+
+        binding.recyclerMember.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerMember.adapter = adapter
 
 
         inviteAdapter = InviteAdapter(listContacts)
@@ -84,10 +88,10 @@ class HomeFragment : Fragment() {
             insertDatabaseContacts(fetchContacts())
         }
 
-        val inviteRecycler = requireView().findViewById<RecyclerView>(R.id.recycler_invite)
-        inviteRecycler.layoutManager =
+
+        binding.recyclerInvite.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        inviteRecycler.adapter = inviteAdapter
+        binding.recyclerInvite.adapter = inviteAdapter
 
     }
 
