@@ -10,6 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.safenest.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +32,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val name = currentUser?.displayName.toString()
+        val email = currentUser?.email.toString()
+        val phoneNumber = currentUser?.toString()
+        val imageUrl = currentUser?.photoUrl.toString()
+
+        val db = Firebase.firestore
+
+        val user = hashMapOf(
+            "name" to name,
+            "email" to email,
+            "phoneNumber" to phoneNumber,
+            "imageUrl" to imageUrl
+        )
+
+        db.collection("users").document(email).set(user).addOnSuccessListener {  }.addOnFailureListener {  }
 
 
         askForPermission()
